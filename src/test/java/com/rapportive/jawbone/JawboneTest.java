@@ -31,24 +31,24 @@ public class JawboneTest {
     }
 
     @Test
-    public void test() throws Exception {
-        PointerByReference jawbonePtr = new PointerByReference();
-        Pointer jawbone = null;
+    public void testWbxmlToXml() throws Exception {
+        PointerByReference convPtr = new PointerByReference();
+        Pointer conv = null;
 
-        int ret = binding.wbxml_conv_wbxml2xml_create(jawbonePtr);
+        int ret = binding.wbxml_conv_wbxml2xml_create(convPtr);
         assertEquals("wbxml_conv_wbxml2xml_create failed", 0, ret);
-        jawbone = jawbonePtr.getValue();
+        conv = convPtr.getValue();
 
         try {
-            binding.wbxml_conv_wbxml2xml_set_gen_type(jawbone, 2); /* WBXML_GEN_XML_CANONICAL */
-            binding.wbxml_conv_wbxml2xml_set_language(jawbone, 2402); /* WBXML_LANG_ACTIVESYNC */
-            binding.wbxml_conv_wbxml2xml_set_charset(jawbone, 0); /* WBXML_CHARSET_UNKNOWN */
-            binding.wbxml_conv_wbxml2xml_set_indent(jawbone, 4); /* 4-space indent */
-            binding.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(jawbone);
+            binding.wbxml_conv_wbxml2xml_set_gen_type(conv, 2); /* WBXML_GEN_XML_CANONICAL */
+            binding.wbxml_conv_wbxml2xml_set_language(conv, 2402); /* WBXML_LANG_ACTIVESYNC */
+            binding.wbxml_conv_wbxml2xml_set_charset(conv, 0); /* WBXML_CHARSET_UNKNOWN */
+            binding.wbxml_conv_wbxml2xml_set_indent(conv, 4); /* 4-space indent */
+            binding.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(conv);
 
             PointerByReference xmlPtr = new PointerByReference();
             LongByReference xmlLength = new LongByReference();
-            ret = binding.wbxml_conv_wbxml2xml_run(jawbone, wbxml, wbxml.length, xmlPtr, xmlLength);
+            ret = binding.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxml.length, xmlPtr, xmlLength);
 
             assertEquals("wbxml_conv_wbxml2xml_run failed", 0, ret);
             assertTrue("returned no XML", xmlLength.getValue() > 0);
@@ -58,8 +58,8 @@ public class JawboneTest {
 
             assertEquals("returned b0rked bytes", xmlLength.getValue(), xmlBytes.length);
         } finally {
-            if (jawbone != null) {
-                binding.wbxml_conv_wbxml2xml_destroy(jawbone);
+            if (conv != null) {
+                binding.wbxml_conv_wbxml2xml_destroy(conv);
             }
         }
     }
