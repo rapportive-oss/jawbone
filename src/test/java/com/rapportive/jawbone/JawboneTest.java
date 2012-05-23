@@ -8,10 +8,12 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 import com.sun.jna.ptr.LongByReference;
@@ -37,7 +39,6 @@ public class JawboneTest {
         int ret = binding.wbxml_conv_wbxml2xml_create(jawbonePtr);
         assertEquals("wbxml_conv_wbxml2xml_create failed", 0, ret);
         jawbone = jawbonePtr.getValue();
-        // TODO worry about cleanup
     }
 
     @Test
@@ -49,7 +50,6 @@ public class JawboneTest {
         binding.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(jawbone);
 
         PointerByReference xmlPtr = new PointerByReference();
-        // TODO worry about cleanup
         LongByReference xmlLength = new LongByReference();
         int ret = binding.wbxml_conv_wbxml2xml_run(jawbone, wbxml, wbxml.length, xmlPtr, xmlLength);
 
@@ -57,7 +57,16 @@ public class JawboneTest {
         assertTrue("returned no XML", xmlLength.getValue() > 0);
 
         byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
+        Native.free(Pointer.nativeValue(xmlPtr.getValue()));
+
         assertEquals("returned b0rked bytes", xmlLength.getValue(), xmlBytes.length);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (jawbone != null) {
+            binding.wbxml_conv_wbxml2xml_destroy(jawbone);
+        }
     }
 
 

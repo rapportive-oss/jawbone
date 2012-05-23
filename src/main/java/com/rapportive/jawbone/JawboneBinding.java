@@ -19,4 +19,6 @@ public interface JawboneBinding extends Library {
     void wbxml_conv_wbxml2xml_enable_preserve_whitespaces(Pointer jawbone);
 
     int wbxml_conv_wbxml2xml_run(Pointer jawbone, byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength);
+
+    void wbxml_conv_wbxml2xml_destroy(Pointer jawbone);
 }
