@@ -12,6 +12,14 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna</artifactId>
+      <version>3.4.0</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <!-- Compile to Java 1.6 -->
