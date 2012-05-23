@@ -34,7 +34,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.12</version>
         <configuration>
-          <argLine>-Djna.library.path=${basedir}/lib</argLine>
+          <argLine>
+            -Djna.library.path=${basedir}/lib
+          </argLine>
         </configuration>
       </plugin>
 
