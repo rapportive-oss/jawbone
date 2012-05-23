@@ -36,6 +36,7 @@
         <configuration>
           <argLine>
             -Djna.library.path=${basedir}/lib
+            -Dtest.resources=${basedir}/src/test/resources
           </argLine>
         </configuration>
       </plugin>
