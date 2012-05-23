@@ -22,4 +22,7 @@ public interface JawboneBinding extends Library {
     int wbxml_conv_wbxml2xml_run(Pointer conv, byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength);
 
     void wbxml_conv_wbxml2xml_destroy(Pointer conv);
+
+
+    String wbxml_errors_string(int ret);
 }

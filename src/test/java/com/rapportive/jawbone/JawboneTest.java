@@ -50,7 +50,7 @@ public class JawboneTest {
             LongByReference xmlLength = new LongByReference();
             ret = binding.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxml.length, xmlPtr, xmlLength);
 
-            assertEquals("wbxml_conv_wbxml2xml_run failed", 0, ret);
+            assertSuccess("wbxml_conv_wbxml2xml_run", ret);
             assertTrue("returned no XML", xmlLength.getValue() > 0);
 
             byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
@@ -64,6 +64,12 @@ public class JawboneTest {
         }
     }
 
+
+    private void assertSuccess(String function, int ret) {
+        if (ret != 0) {
+            fail(function + ": " + binding.wbxml_errors_string(ret));
+        }
+    }
 
     private static String testResource(String path) {
         String testResourcesDir = System.getProperty("test.resources");
