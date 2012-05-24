@@ -34,8 +34,8 @@ public class WbxmlToXml {
         jawbone.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(conv);
     }
 
-    public void run(byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength) {
-        jawbone.check(jawbone.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxmlLength, xmlPtr, xmlLength));
+    public void run(byte[] wbxml, PointerByReference xmlPtr, LongByReference xmlLength) {
+        jawbone.check(jawbone.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxml.length, xmlPtr, xmlLength));
     }
 
     @Override

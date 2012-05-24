@@ -43,7 +43,7 @@ public class JawboneTest {
 
         PointerByReference xmlPtr = new PointerByReference();
         LongByReference xmlLength = new LongByReference();
-        conv.run(wbxml, wbxml.length, xmlPtr, xmlLength);
+        conv.run(wbxml, xmlPtr, xmlLength);
 
         assertTrue("returned no XML", xmlLength.getValue() > 0);
 
