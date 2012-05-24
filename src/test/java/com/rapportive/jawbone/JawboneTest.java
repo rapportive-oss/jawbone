@@ -34,7 +34,7 @@ public class JawboneTest {
 
     @Test
     public void testWbxmlToXml() throws Exception {
-        WbxmlToXml conv = binding.newWbxmlToXml();
+        WbxmlToXml conv = new WbxmlToXml();
         conv.setGenType(2); /* WBXML_GEN_XML_CANONICAL */
         conv.setLanguage(2402); /* WBXML_LANG_ACTIVESYNC */
         conv.setCharset(0); /* WBXML_CHARSET_UNKNOWN */
