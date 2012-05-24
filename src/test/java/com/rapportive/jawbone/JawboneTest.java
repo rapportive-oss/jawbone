@@ -29,7 +29,7 @@ public class JawboneTest {
         wbxml = readFile(testResource("activesync-001-settings_device_information.wbxml"));
         xml = readFile(testResource("activesync-001-settings_device_information.xml"));
 
-        binding = JawboneBinding.INSTANCE;
+        binding = new JawboneBinding();
     }
 
     @Test
