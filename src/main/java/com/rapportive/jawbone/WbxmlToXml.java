@@ -1,5 +1,7 @@
 package com.rapportive.jawbone;
 
+import static com.rapportive.jawbone.JawboneException.check;
+
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
@@ -54,20 +56,6 @@ public class WbxmlToXml {
     }
 
 
-    private void check(String function, int ret) {
-        if (ret != 0) {
-            throw new WbxmlToXmlException(function + ": " + wbxml_errors_string(ret));
-        }
-    }
-
-    @SuppressWarnings("serial")
-    private class WbxmlToXmlException extends RuntimeException {
-        public WbxmlToXmlException(String message) {
-            super(message);
-        }
-    }
-
-
     private native int wbxml_conv_wbxml2xml_create(PointerByReference convPtr);
 
     private native void wbxml_conv_wbxml2xml_set_gen_type(Pointer conv, int genType);
@@ -79,6 +67,4 @@ public class WbxmlToXml {
     private native int wbxml_conv_wbxml2xml_run(Pointer conv, byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength);
 
     private native void wbxml_conv_wbxml2xml_destroy(Pointer conv);
-
-    private native String wbxml_errors_string(int ret);
 }

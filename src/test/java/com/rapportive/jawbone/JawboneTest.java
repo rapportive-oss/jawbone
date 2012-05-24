@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 
+import static com.rapportive.jawbone.JawboneException.check;
+
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
@@ -63,7 +65,7 @@ public class JawboneTest {
             LongByReference wbxmlLength = new LongByReference();
             ret = binding.wbxml_conv_xml2wbxml_run(conv, xml, xml.length, wbxmlPtr, wbxmlLength);
 
-            assertSuccess("wbxml_conv_xml2wbxml_run", ret);
+            check("wbxml_conv_xml2wbxml_run", ret);
             assertTrue("returned no WBXML", wbxmlLength.getValue() > 0);
 
             byte[] wbxmlBytes = wbxmlPtr.getValue().getByteArray(0L, (int) wbxmlLength.getValue());
@@ -77,12 +79,6 @@ public class JawboneTest {
         }
     }
 
-
-    private void assertSuccess(String function, int ret) {
-        if (ret != 0) {
-            fail(function + ": " + binding.wbxml_errors_string(ret));
-        }
-    }
 
     private static String testResource(String path) {
         String testResourcesDir = System.getProperty("test.resources");

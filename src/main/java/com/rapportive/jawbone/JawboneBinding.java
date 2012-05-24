@@ -22,22 +22,4 @@ public class JawboneBinding {
     public native int wbxml_conv_xml2wbxml_run(Pointer conv, byte[] xml, long xmlLength, PointerByReference wbxmlPtr, LongByReference wbxmlLength);
 
     public native void wbxml_conv_xml2wbxml_destroy(Pointer conv);
-
-
-    public native String wbxml_errors_string(int ret);
-
-
-    public void check(int ret) {
-        if (ret != 0) {
-            throw new JawboneException(ret);
-        }
-    }
-
-
-    @SuppressWarnings("serial")
-    class JawboneException extends RuntimeException {
-        JawboneException(int ret) {
-            super(wbxml_errors_string(ret));
-        }
-    }
 }
