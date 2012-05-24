@@ -41,16 +41,8 @@ public class JawboneTest {
         conv.setIndent(4); /* 4-space indent */
         conv.enablePreserveWhitespaces();
 
-        PointerByReference xmlPtr = new PointerByReference();
-        LongByReference xmlLength = new LongByReference();
-        conv.run(wbxml, xmlPtr, xmlLength);
-
-        assertTrue("returned no XML", xmlLength.getValue() > 0);
-
-        byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
-        Native.free(Pointer.nativeValue(xmlPtr.getValue()));
-
-        assertEquals("returned b0rked bytes", xmlLength.getValue(), xmlBytes.length);
+        byte[] xmlBytes = conv.run(wbxml);
+        assertTrue("returned no XML", xmlBytes.length > 0);
     }
 
     @Test

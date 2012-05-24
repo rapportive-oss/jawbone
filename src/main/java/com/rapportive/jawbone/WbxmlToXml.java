@@ -1,5 +1,6 @@
 package com.rapportive.jawbone;
 
+import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 import com.sun.jna.ptr.LongByReference;
@@ -34,8 +35,15 @@ public class WbxmlToXml {
         jawbone.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(conv);
     }
 
-    public void run(byte[] wbxml, PointerByReference xmlPtr, LongByReference xmlLength) {
+    public byte[] run(byte[] wbxml) {
+        PointerByReference xmlPtr = new PointerByReference();
+        LongByReference xmlLength = new LongByReference();
+
         jawbone.check(jawbone.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxml.length, xmlPtr, xmlLength));
+
+        byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
+        Native.free(Pointer.nativeValue(xmlPtr.getValue()));
+        return xmlBytes;
     }
 
     @Override
