@@ -20,7 +20,7 @@ public class JawboneException extends RuntimeException {
     }
 
     public JawboneException(String prefix, int ret) {
-        this.message = prefix + ": " + wbxml_errors_string(ret);
+        this.message = String.format("%s: %d (%s)", prefix, ret, wbxml_errors_string(ret));
     }
 
     @Override
