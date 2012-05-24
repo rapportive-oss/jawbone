@@ -7,22 +7,27 @@ import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.PointerByReference;
 
 public class JawboneBinding {
+    public WbxmlToXml newWbxmlToXml() {
+        return new WbxmlToXml(this);
+    }
+
+
     static {
         Native.register("wbxml2");
     }
 
 
-    public native int wbxml_conv_wbxml2xml_create(PointerByReference convPtr);
+    native int wbxml_conv_wbxml2xml_create(PointerByReference convPtr);
 
-    public native void wbxml_conv_wbxml2xml_set_gen_type(Pointer conv, int genType);
-    public native void wbxml_conv_wbxml2xml_set_language(Pointer conv, int language);
-    public native void wbxml_conv_wbxml2xml_set_charset(Pointer conv, int charset);
-    public native void wbxml_conv_wbxml2xml_set_indent(Pointer conv, int indent);
-    public native void wbxml_conv_wbxml2xml_enable_preserve_whitespaces(Pointer conv);
+    native void wbxml_conv_wbxml2xml_set_gen_type(Pointer conv, int genType);
+    native void wbxml_conv_wbxml2xml_set_language(Pointer conv, int language);
+    native void wbxml_conv_wbxml2xml_set_charset(Pointer conv, int charset);
+    native void wbxml_conv_wbxml2xml_set_indent(Pointer conv, int indent);
+    native void wbxml_conv_wbxml2xml_enable_preserve_whitespaces(Pointer conv);
 
-    public native int wbxml_conv_wbxml2xml_run(Pointer conv, byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength);
+    native int wbxml_conv_wbxml2xml_run(Pointer conv, byte[] wbxml, long wbxmlLength, PointerByReference xmlPtr, LongByReference xmlLength);
 
-    public native void wbxml_conv_wbxml2xml_destroy(Pointer conv);
+    native void wbxml_conv_wbxml2xml_destroy(Pointer conv);
 
 
     public native int wbxml_conv_xml2wbxml_create(PointerByReference convPtr);
@@ -38,4 +43,19 @@ public class JawboneBinding {
 
 
     public native String wbxml_errors_string(int ret);
+
+
+    public void check(int ret) {
+        if (ret != 0) {
+            throw new JawboneException(ret);
+        }
+    }
+
+
+    @SuppressWarnings("serial")
+    class JawboneException extends RuntimeException {
+        JawboneException(int ret) {
+            super(wbxml_errors_string(ret));
+        }
+    }
 }

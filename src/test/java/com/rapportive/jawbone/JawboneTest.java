@@ -34,36 +34,23 @@ public class JawboneTest {
 
     @Test
     public void testWbxmlToXml() throws Exception {
-        PointerByReference convPtr = new PointerByReference();
-        Pointer conv = null;
+        WbxmlToXml conv = binding.newWbxmlToXml();
+        conv.setGenType(2); /* WBXML_GEN_XML_CANONICAL */
+        conv.setLanguage(2402); /* WBXML_LANG_ACTIVESYNC */
+        conv.setCharset(0); /* WBXML_CHARSET_UNKNOWN */
+        conv.setIndent(4); /* 4-space indent */
+        conv.enablePreserveWhitespaces();
 
-        int ret = binding.wbxml_conv_wbxml2xml_create(convPtr);
-        assertEquals("wbxml_conv_wbxml2xml_create failed", 0, ret);
-        conv = convPtr.getValue();
+        PointerByReference xmlPtr = new PointerByReference();
+        LongByReference xmlLength = new LongByReference();
+        conv.run(wbxml, wbxml.length, xmlPtr, xmlLength);
 
-        try {
-            binding.wbxml_conv_wbxml2xml_set_gen_type(conv, 2); /* WBXML_GEN_XML_CANONICAL */
-            binding.wbxml_conv_wbxml2xml_set_language(conv, 2402); /* WBXML_LANG_ACTIVESYNC */
-            binding.wbxml_conv_wbxml2xml_set_charset(conv, 0); /* WBXML_CHARSET_UNKNOWN */
-            binding.wbxml_conv_wbxml2xml_set_indent(conv, 4); /* 4-space indent */
-            binding.wbxml_conv_wbxml2xml_enable_preserve_whitespaces(conv);
+        assertTrue("returned no XML", xmlLength.getValue() > 0);
 
-            PointerByReference xmlPtr = new PointerByReference();
-            LongByReference xmlLength = new LongByReference();
-            ret = binding.wbxml_conv_wbxml2xml_run(conv, wbxml, wbxml.length, xmlPtr, xmlLength);
+        byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
+        Native.free(Pointer.nativeValue(xmlPtr.getValue()));
 
-            assertSuccess("wbxml_conv_wbxml2xml_run", ret);
-            assertTrue("returned no XML", xmlLength.getValue() > 0);
-
-            byte[] xmlBytes = xmlPtr.getValue().getByteArray(0L, (int) xmlLength.getValue());
-            Native.free(Pointer.nativeValue(xmlPtr.getValue()));
-
-            assertEquals("returned b0rked bytes", xmlLength.getValue(), xmlBytes.length);
-        } finally {
-            if (conv != null) {
-                binding.wbxml_conv_wbxml2xml_destroy(conv);
-            }
-        }
+        assertEquals("returned b0rked bytes", xmlLength.getValue(), xmlBytes.length);
     }
 
     @Test
