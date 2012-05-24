@@ -8,6 +8,10 @@ import com.sun.jna.Pointer;
 import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.PointerByReference;
 
+
+/**
+ * Converts WBXML into XML.
+ */
 public class WbxmlToXml {
     static {
         Native.register("wbxml2");
@@ -39,6 +43,12 @@ public class WbxmlToXml {
         wbxml_conv_wbxml2xml_enable_preserve_whitespaces(conv);
     }
 
+    /**
+     * Convert WBXML into XML.
+     *
+     * @param wbxml  bytes containing WBXML.
+     * @return bytes containing XML.
+     */
     public byte[] run(byte[] wbxml) {
         PointerByReference xmlPtr = new PointerByReference();
         LongByReference xmlLength = new LongByReference();
