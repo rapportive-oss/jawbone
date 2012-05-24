@@ -49,34 +49,14 @@ public class JawboneTest {
 
     @Test
     public void testXmlToWbxml() throws Exception {
-        PointerByReference convPtr = new PointerByReference();
-        Pointer conv = null;
+        XmlToWbxml conv = new XmlToWbxml();
 
-        int ret = binding.wbxml_conv_xml2wbxml_create(convPtr);
-        assertEquals("wbxml_conv_xml2wbxml_create failed", 0, ret);
-        conv = convPtr.getValue();
+        conv.enablePreserveWhitespaces();
+        conv.disableStringTable();
+        conv.disablePublicId();
 
-        try {
-            binding.wbxml_conv_xml2wbxml_enable_preserve_whitespaces(conv);
-            binding.wbxml_conv_xml2wbxml_disable_string_table(conv);
-            binding.wbxml_conv_xml2wbxml_disable_public_id(conv);
-
-            PointerByReference wbxmlPtr = new PointerByReference();
-            LongByReference wbxmlLength = new LongByReference();
-            ret = binding.wbxml_conv_xml2wbxml_run(conv, xml, xml.length, wbxmlPtr, wbxmlLength);
-
-            check("wbxml_conv_xml2wbxml_run", ret);
-            assertTrue("returned no WBXML", wbxmlLength.getValue() > 0);
-
-            byte[] wbxmlBytes = wbxmlPtr.getValue().getByteArray(0L, (int) wbxmlLength.getValue());
-            Native.free(Pointer.nativeValue(wbxmlPtr.getValue()));
-
-            assertEquals("returned b0rked bytes", wbxmlLength.getValue(), wbxmlBytes.length);
-        } finally {
-            if (conv != null) {
-                binding.wbxml_conv_xml2wbxml_destroy(conv);
-            }
-        }
+        byte[] wbxmlBytes = conv.run(xml);
+        assertTrue("returned no WBXML", wbxmlBytes.length > 0);
     }
 
 
