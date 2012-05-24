@@ -6,22 +6,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 
-import static com.rapportive.jawbone.JawboneException.check;
-
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-
-import com.sun.jna.ptr.LongByReference;
-import com.sun.jna.ptr.PointerByReference;
-
 public class JawboneTest {
-
-    private static JawboneBinding binding;
 
     private static byte[] wbxml;
     private static byte[] xml;
@@ -30,8 +20,6 @@ public class JawboneTest {
     public static void setUpBeforeClass() throws Exception {
         wbxml = readFile(testResource("activesync-001-settings_device_information.wbxml"));
         xml = readFile(testResource("activesync-001-settings_device_information.xml"));
-
-        binding = new JawboneBinding();
     }
 
     @Test
