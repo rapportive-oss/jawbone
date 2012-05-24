@@ -24,5 +24,17 @@ public interface JawboneBinding extends Library {
     void wbxml_conv_wbxml2xml_destroy(Pointer conv);
 
 
+    int wbxml_conv_xml2wbxml_create(PointerByReference convPtr);
+
+    void wbxml_conv_xml2wbxml_set_version(Pointer conv, int version);
+    void wbxml_conv_xml2wbxml_enable_preserve_whitespaces(Pointer conv);
+    void wbxml_conv_xml2wbxml_disable_string_table(Pointer conv);
+    void wbxml_conv_xml2wbxml_disable_public_id(Pointer conv);
+
+    int wbxml_conv_xml2wbxml_run(Pointer conv, byte[] xml, long xmlLength, PointerByReference wbxmlPtr, LongByReference wbxmlLength);
+
+    void wbxml_conv_xml2wbxml_destroy(Pointer conv);
+
+
     String wbxml_errors_string(int ret);
 }
